@@ -4,28 +4,92 @@ layout: base
 
 {% include header.html type="page" %}
 
-<main class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %}">
-  <div class="row">
-    <div class="{% if page.full-width %} col {% else %} col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 {% endif %}">
-      {% if page.before-content %}
-        <div class="before-content">
+<main class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %} page-wrapper">
+
+  <div class="row justify-content-center">
+    <div class="{% if page.full-width %} col {% else %} col-xl-8 col-lg-10 {% endif %}">
+
+      <article class="page-article">
+
+        {% if page.before-content %}
+        <section class="before-content">
           {% for file in page.before-content %}
             {% include {{ file }} %}
           {% endfor %}
-        </div>
-      {% endif %}
+        </section>
+        {% endif %}
 
-      {{ content }}
+        <section class="page-content">
+          {{ content }}
+        </section>
 
-      {% if page.after-content %}
-        <div class="after-content">
+        {% if page.after-content %}
+        <section class="after-content">
           {% for file in page.after-content %}
             {% include {{ file }} %}
           {% endfor %}
-        </div>
-      {% endif %}
+        </section>
+        {% endif %}
 
-      {% include comments.html %}
+      </article>
+
+      <div class="comments-wrapper">
+        {% include comments.html %}
+      </div>
+
     </div>
   </div>
+
 </main>
+
+<style>
+/* ======================================================
+   PAGE LAYOUT REFINEMENT
+====================================================== */
+
+.page-wrapper {
+  padding-bottom: 4rem;
+}
+
+/* Card-style content surface */
+.page-article {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 3rem 3rem 2.5rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+
+/* Reading comfort */
+.page-content {
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+/* Content spacing */
+.before-content,
+.after-content {
+  margin-bottom: 2rem;
+}
+
+/* Comments separation */
+.comments-wrapper {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Full-width behavior */
+.container-fluid .page-article {
+  border-radius: 0;
+  box-shadow: none;
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .page-article {
+    padding: 2rem 1.5rem;
+  }
+}
+</style>
