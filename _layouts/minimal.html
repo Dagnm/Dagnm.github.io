@@ -4,6 +4,7 @@ common-css:
 common-ext-css:
   - href: "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     sri: "sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+  - "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
 common-ext-js:
   - href: "https://code.jquery.com/jquery-3.5.1.slim.min.js"
     sri: "sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
@@ -16,33 +17,117 @@ common-ext-js:
 <!DOCTYPE html>
 <html lang="{{ page.language | default: site.language | default: 'en' }}">
 
-  {% include head.html %}
+{% include head.html %}
 
-  <body>
+<style>
+/* ======================================================
+   MINIMAL PROFESSIONAL TYPOGRAPHY
+====================================================== */
 
-    <main class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %} main-content">
-      {% if page.before-content %}
-        <div class="before-content">
-          {% for file in page.before-content %}
-            {% include {{ file }} %}
-          {% endfor %}
-        </div>
-      {% endif %}
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #111827;
+  background-color: #ffffff;
+  line-height: 1.75;
+}
 
-      {{ content }}
+/* Main content */
+.main-content {
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+  max-width: 760px;
+}
 
-      {% if page.after-content %}
-        <div class="after-content">
-          {% for file in page.after-content %}
-            {% include {{ file }} %}
-          {% endfor %}
-        </div>
-      {% endif %}
-    </main>
+/* Headings */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
 
-    {% include footer-minimal.html %}
+/* First heading tighter */
+h1:first-child,
+h2:first-child {
+  margin-top: 0;
+}
 
-    {% include footer-scripts.html %}
+/* Links */
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
 
-  </body>
+a:hover {
+  text-decoration: underline;
+}
+
+/* Paragraph rhythm */
+p {
+  margin-bottom: 1.25rem;
+}
+
+/* Lists */
+ul, ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.25rem;
+}
+
+/* Code blocks */
+pre, code {
+  background: #f9fafb;
+  border-radius: 6px;
+}
+
+/* Footer spacing */
+footer {
+  margin-top: 4rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* Full-width override */
+.container-fluid.main-content {
+  max-width: none;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
+}
+</style>
+
+<body>
+
+  <main class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %} main-content">
+
+    {% if page.before-content %}
+      <div class="before-content">
+        {% for file in page.before-content %}
+          {% include {{ file }} %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {{ content }}
+
+    {% if page.after-content %}
+      <div class="after-content">
+        {% for file in page.after-content %}
+          {% include {{ file }} %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </main>
+
+  {% include footer-minimal.html %}
+  {% include footer-scripts.html %}
+
+</body>
 </html>
