@@ -4,85 +4,197 @@ layout: base
 
 {% include header.html type="post" %}
 
-<main class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %}">
-  <div class="row">
-    <div class="{% if page.full-width %} col {% else %} col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 {% endif %}">
+<main class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %} post-wrapper">
 
-      {% if page.gh-repo %}
-        {% assign gh_split =  page.gh-repo | split:'/'  %}
-        {% assign gh_user =  gh_split[0]  %}
-        {% assign gh_repo =  gh_split[1]  %}
+  <div class="row justify-content-center">
+    <div class="{% if page.full-width %} col {% else %} col-xl-8 col-lg-10 {% endif %}">
 
-        <div id="header-gh-btns">
-          {% if page.gh-badge.size > 0 %}
-            {% for badge in page.gh-badge %}
-              {% case badge %}
-                {% when 'star'%}
-                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
-                {% when 'watch'%}
-                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=watch&v=2&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
-                {% when 'fork'%}
-                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
-                {% when 'follow'%}
-                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&type=follow&count=true" frameborder="0" scrolling="0" width="220px" height="20px"></iframe>
-              {% endcase %}
-            {% endfor %}
-          {% endif %}
-        </div>
-      {% endif %}
+      <article class="post-article">
 
-      {% if page.before-content %}
-        <div class="before-content">
+        {% if page.gh-repo %}
+          {% assign gh_split = page.gh-repo | split:'/' %}
+          {% assign gh_user = gh_split[0] %}
+          {% assign gh_repo = gh_split[1] %}
+
+          <div class="github-badges">
+            {% if page.gh-badge.size > 0 %}
+              {% for badge in page.gh-badge %}
+                {% case badge %}
+                  {% when 'star' %}
+                    <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=star&count=true"
+                      frameborder="0" scrolling="0" width="120" height="20"></iframe>
+                  {% when 'watch' %}
+                    <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=watch&v=2&count=true"
+                      frameborder="0" scrolling="0" width="120" height="20"></iframe>
+                  {% when 'fork' %}
+                    <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=fork&count=true"
+                      frameborder="0" scrolling="0" width="120" height="20"></iframe>
+                  {% when 'follow' %}
+                    <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&type=follow&count=true"
+                      frameborder="0" scrolling="0" width="220" height="20"></iframe>
+                {% endcase %}
+              {% endfor %}
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if page.before-content %}
+        <section class="before-content">
           {% for file in page.before-content %}
             {% include {{ file }} %}
           {% endfor %}
-        </div>
-      {% endif %}
+        </section>
+        {% endif %}
 
-      <div class="blog-post">
-        {{ content }}
-      </div>
+        <section class="blog-post">
+          {{ content }}
+        </section>
 
-      {% if page.tags.size > 0 %}
-        <div class="blog-tags">
-          <span>Tags:</span>
+        {% if page.tags.size > 0 %}
+        <section class="blog-tags">
+          <span>Tags</span>
           {% for tag in page.tags %}
-            <a href="{{ '/tags' | relative_url }}#{{- tag -}}">{{- tag -}}</a>
+            <a href="{{ '/tags' | relative_url }}#{{ tag }}">{{ tag }}</a>
           {% endfor %}
-        </div>
-      {% endif %}
+        </section>
+        {% endif %}
 
-      {% if page.after-content %}
-        <div class="after-content">
+        {% if page.after-content %}
+        <section class="after-content">
           {% for file in page.after-content %}
             {% include {{ file }} %}
           {% endfor %}
-        </div>
-      {% endif %}
-
-      {% if page.social-share %}
-        {% include social-share.html %}
-      {% endif %}
-
-      <ul class="pagination blog-pager">
-        {% if page.previous.url %}
-        <li class="page-item previous">
-          <a class="page-link" href="{{ page.previous.url | relative_url }}" data-toggle="tooltip" data-placement="top" title="{{page.previous.title | strip_html | xml_escape}}">
-            <i class="fas fa-arrow-left" alt="Previous Post"></i>
-            <span class="d-none d-sm-inline-block">Previous Post</span>
-          </a>
-        </li>
+        </section>
         {% endif %}
-        {% if page.next.url %}
-        <li class="page-item next">
-          <a class="page-link" href="{{ page.next.url | relative_url }}" data-toggle="tooltip" data-placement="top" title="{{page.next.title | strip_html | xml_escape}}">
-            <span class="d-none d-sm-inline-block">Next Post</span>
-            <i class="fas fa-arrow-right" alt="Next Post"></i>
-          </a>
-        </li>
+
+        {% if page.social-share %}
+          <section class="social-share-wrapper">
+            {% include social-share.html %}
+          </section>
         {% endif %}
-      </ul>
-      {% include comments.html %}
+
+        <nav class="post-navigation">
+          <ul class="pagination blog-pager">
+            {% if page.previous.url %}
+            <li class="page-item previous">
+              <a class="page-link" href="{{ page.previous.url | relative_url }}"
+                 title="{{ page.previous.title | strip_html | xml_escape }}">
+                <i class="fas fa-arrow-left"></i>
+                <span class="d-none d-sm-inline-block">Previous</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if page.next.url %}
+            <li class="page-item next">
+              <a class="page-link" href="{{ page.next.url | relative_url }}"
+                 title="{{ page.next.title | strip_html | xml_escape }}">
+                <span class="d-none d-sm-inline-block">Next</span>
+                <i class="fas fa-arrow-right"></i>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+
+      </article>
+
+      <div class="comments-wrapper">
+        {% include comments.html %}
+      </div>
+
     </div>
   </div>
+
 </main>
+
+<style>
+/* ======================================================
+   POST LAYOUT & TYPOGRAPHY
+====================================================== */
+
+.post-wrapper {
+  padding-bottom: 4rem;
+}
+
+/* Article surface */
+.post-article {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 3.25rem 3.25rem 2.75rem;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.07);
+}
+
+/* Reading comfort */
+.blog-post {
+  font-size: 1.06rem;
+  line-height: 1.8;
+}
+
+/* GitHub badges */
+.github-badges {
+  margin-bottom: 1.5rem;
+}
+
+.github-badges iframe {
+  margin-right: 0.5rem;
+}
+
+/* Tags */
+.blog-tags {
+  margin-top: 2.5rem;
+}
+
+.blog-tags span {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.blog-tags a {
+  display: inline-block;
+  margin-right: 0.4rem;
+  margin-bottom: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
+  background: #f1f5f9;
+  border-radius: 999px;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.blog-tags a:hover {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+/* Social share */
+.social-share-wrapper {
+  margin-top: 2.5rem;
+}
+
+/* Post navigation */
+.post-navigation {
+  margin-top: 3rem;
+}
+
+/* Comments */
+.comments-wrapper {
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Full-width handling */
+.container-fluid .post-article {
+  border-radius: 0;
+  box-shadow: none;
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .post-article {
+    padding: 2rem 1.5rem;
+  }
+}
+</style>
